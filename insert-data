@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Submission</title>
+</head>
+<body>
+
+<h2>Submit Form</h2>
+
+<form action="submit.php" method="post">
+  <label for="firstName">First Name:</label>
+  <input type="text" id="firstName" name="firstName" required>
+  <br>
+  
+  <label for="lastName">Last Name:</label>
+  <input type="text" id="lastName" name="lastName" required>
+  <br>
+  
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required>
+  <br>
+  
+  <input type="submit" value="Submit">
+</form>
+
+<?php
+// Database connection
+$servername = "localhost";
+$username = "root"; // Enter your database username
+$password = ""; // Enter your database password
+$dbname = "university"; // Enter your database name
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// Get form data
+$firstName = $_POST['firstName'];
+$lastName = $_POST['lastName'];
+$email = $_POST['email'];
+
+// Insert data into database
+$sql = "INSERT INTO admin VALUES ('$firstName', '$lastName', '$email')";
+
+if ($conn->query($sql) === TRUE) {
+  echo "New record created successfully";
+} else {
+  echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+$conn->close();
+?>
+
+</body>
+</html>
